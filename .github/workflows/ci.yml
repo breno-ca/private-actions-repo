@@ -15,9 +15,9 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PRIVATE_REPO_URL: github.com/breno-ca/private-repo
-          GIT_THIS: url.https://user:${TOKEN}@github.com/
+          GIT_THIS: url.https://user:$TOKEN@github.com/
         run: |
-          git config --global ${GIT_THIS}.instead https://github.com; \
+          git config --global $GIT_THIS.instead https://github.com; \
           go env -w GOPRIVATE=$PRIVATE_REPO_URL && \
           go get -u
 
