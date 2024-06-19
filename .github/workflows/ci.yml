@@ -19,13 +19,14 @@ jobs:
 
       - name: Add git credentials
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git config --global url.https://action-runner:$TOKEN@github.com.insteadOf https://github.com
-
+          TOKEN: ${{ secrets.RUNNER_DEP_HANDLER }}
+        run: git config --global url.https://$TOKEN@github.com.insteadOf https://github.com
 
       - name: Update Dependencies
+        env:
+          GOPRIVATE: github.com/breno-ca/private-repo
         run: |
-          go env -w GOPRIVATE=$PRIVATE_REPO_URL && \
+          go env -w GOPRIVATE=$GOPRIVATE && \
           go get -u
 
       - name: Run Main
