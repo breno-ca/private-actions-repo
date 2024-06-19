@@ -12,9 +12,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Update Dependencies
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRIVATE_REPO_URL: github.com/breno-ca/private-repo
+          GIT_THIS: url.https://user:${TOKEN}@github.com/
         run: |
-          go env -w GOPRIVATE=github.com/breno-ca/private-repo && \
-          go get -u;
+          git config --global ${GIT_THIS}.instead https://github.com; \
+          go env -w GOPRIVATE=$PRIVATE_REPO_URL && \
+          go get -u
 
       - name: Run Main
         run: go run main.go
