@@ -30,4 +30,6 @@ jobs:
           go get -u
 
       - name: Run Main
-        run: go run main.go
+        env:
+          TOKEN: ${{ secrets.TEST_TOKEN }}
+        run: TEST_TOKEN=$TOKEN go run main.go
