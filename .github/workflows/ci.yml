@@ -27,7 +27,7 @@ jobs:
           GOPRIVATE: github.com/breno-ca/private-repo
         run: |
           go env -w GOPRIVATE=$GOPRIVATE && \
-          go get -u
+          go mod tidy
 
       - name: Run Main
         env:
