@@ -63,7 +63,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Touch a file in EC2 with SSH
-        uses: easingthemes/ssh-deploy@v5
+        uses: easingthemes/ssh-deploy@v5.0.3
         with:
           SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH }}
           REMOTE_HOST: ${{ secrets.AWS_HOST }}
