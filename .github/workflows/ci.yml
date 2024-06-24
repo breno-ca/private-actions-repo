@@ -7,6 +7,9 @@ on:
 
 jobs:
   run:
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -53,6 +56,21 @@ jobs:
           docker load -i ~/image-cache/mysql-8.0.36.tar; \
           docker load -i ~/image-cache/redis-7.tar
 
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::993567414591:role/github-actions-runner-identifier
+          aws-region: us-east-1
+
+      - name: Touch a file in EC2 with SSH
+        uses: easingthemes/ssh-deploy@v5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH }}
+          REMOTE_HOST: ${{ secrets.AWS_HOST }}
+          REMOTE_USER: ${{ secrets.AWS_USER }}
+          SCRIPT_AFTER: |
+            touch > newfile.txt
+          
       - name: Run Main
         env:
           TOKEN: ${{ secrets.TEST_TOKEN }}
