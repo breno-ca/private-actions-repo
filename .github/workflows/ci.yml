@@ -56,12 +56,6 @@ jobs:
           docker load -i ~/image-cache/mysql-8.0.36.tar; \
           docker load -i ~/image-cache/redis-7.tar
 
-      - name: AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::993567414591:role/github-actions-runner-identifier
-          aws-region: us-east-1
-
       - name: Touch a file in EC2 with SSH
         uses: easingthemes/ssh-deploy@v5.0.3
         with:
