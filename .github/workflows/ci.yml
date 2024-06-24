@@ -68,6 +68,15 @@ jobs:
           source: "deploy.txt"
           target: "~/"
 
+      - name: SSH to EC2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH }}
+          HOST: ${{ secrets.AWS_HOST }}
+          USER: ${{ secrets.AWS_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key; \
+          echo "echo >> funcionou" | ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST
+
 
       #      - name: Touch a file in EC2 with SSH
       #        uses: easingthemes/ssh-deploy@v5.0.3
