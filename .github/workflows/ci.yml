@@ -75,7 +75,10 @@ jobs:
           USER: ${{ secrets.AWS_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key; \
-          echo "echo >> funcionou" | ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST
+          ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST '
+            
+            echo "echo >> funcionou" 
+            '
 
 
       #      - name: Touch a file in EC2 with SSH
