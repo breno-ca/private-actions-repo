@@ -74,7 +74,7 @@ jobs:
           HOST: ${{ secrets.AWS_HOST }}
           USER: ${{ secrets.AWS_USER }}
         run: |
-          echo "$PRIVATE_KEY" > oidc-test.pem && chmod 600 oidc-test.pem; \
+          echo -n "$PRIVATE_KEY" >> oidc-test.pem && chmod 600 oidc-test.pem; \
           ssh -o StrictHostKeyChecking=no -i oidc-test.pem $USER@$HOST '
             
             echo "echo >> funcionou" 
