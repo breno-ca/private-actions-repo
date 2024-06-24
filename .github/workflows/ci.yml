@@ -29,6 +29,26 @@ jobs:
           go env -w GOPRIVATE=$GOPRIVATE && \
           go mod tidy
 
+      - name: Prepare to cache docker images
+        run: mkdir -p ~/image-cache
+      
+      - name: Cache docker images
+        id : image-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/image-cache
+          key: image-cache-${{ runner.os }}
+      - if: steps.image-cache.outputs.cache-hit != 'true'
+        run: |
+          docker pull mysql:8.0.36; \
+          docker save -o ~/image-cache/mysql-8.0.36.tar mysql:8.0.36
+          docker pull redis:7; \
+          docker save -o ~/image-cache/redis-7.tar redis:7
+      - if: steps.image-cache.outputs.cache-hit == 'true'
+        run: |
+          docker load -i ~/image-cache/mysql-8.0.36.tar; \
+          docker load -i ~/image-cache/redis-7.tar
+
       - name: Run Main
         env:
           TOKEN: ${{ secrets.TEST_TOKEN }}
