@@ -76,7 +76,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > oidc-test.pem; \
           chmod 600 oidc-test.pem; \
-          echo "echo > ~/funcionou.txt" | ssh -o "StrictHostKeyChecking no" -i oidc-test.pem $USER@$HOST
+          ssh -o "StrictHostKeyChecking no" -i oidc-test.pem $USER@$HOST 'echo ./script.sh'
 
       #      - name: Touch a file in EC2 with SSH
       #        uses: easingthemes/ssh-deploy@v5.0.3
