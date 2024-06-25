@@ -32,29 +32,29 @@ jobs:
           go env -w GOPRIVATE=$GOPRIVATE && \
           go mod tidy
 
-      - name: Prepare to cache docker images
-        run: mkdir -p ~/image-cache
-      
-      - name: Setup caching
-        id : image-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/image-cache
-          key: image-cache-${{ runner.os }}
-      
-      - name: Pull again if cache miss
-        if: steps.image-cache.outputs.cache-hit != 'true'
-        run: |
-          docker pull mysql:8.0.36; \
-          docker save -o ~/image-cache/mysql-8.0.36.tar mysql:8.0.36
-          docker pull redis:7; \
-          docker save -o ~/image-cache/redis-7.tar redis:7
-
-      - name: Get cache if hit
-        if: steps.image-cache.outputs.cache-hit == 'true'
-        run: |
-          docker load -i ~/image-cache/mysql-8.0.36.tar; \
-          docker load -i ~/image-cache/redis-7.tar
+      #      - name: Prepare to cache docker images
+      #        run: mkdir -p ~/image-cache
+      #      
+      #      - name: Setup caching
+      #        id : image-cache
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/image-cache
+      #          key: image-cache-${{ runner.os }}
+      #      
+      #      - name: Pull again if cache miss
+      #        if: steps.image-cache.outputs.cache-hit != 'true'
+      #        run: |
+      #          docker pull mysql:8.0.36; \
+      #          docker save -o ~/image-cache/mysql-8.0.36.tar mysql:8.0.36
+      #          docker pull redis:7; \
+      #          docker save -o ~/image-cache/redis-7.tar redis:7
+      #
+      #      - name: Get cache if hit
+      #        if: steps.image-cache.outputs.cache-hit == 'true'
+      #        run: |
+      #          docker load -i ~/image-cache/mysql-8.0.36.tar; \
+      #          docker load -i ~/image-cache/redis-7.tar
 
       - name: Create deploy.txt
         run: touch deploy.txt
@@ -75,7 +75,7 @@ jobs:
           USER: ${{ secrets.AWS_USER }}
         run: |
           echo "$SSH_PRIVATE_KEY" > oidc-test.pem; \
-          chmod 600 oidc-test.pem; \
+          chmod 400 oidc-test.pem; \
           ssh -o "StrictHostKeyChecking no" -i oidc-test.pem $USER@$HOST './script.sh'
 
       #      - name: Touch a file in EC2 with SSH
