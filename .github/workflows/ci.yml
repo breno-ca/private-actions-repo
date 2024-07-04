@@ -95,4 +95,5 @@ jobs:
     uses: ./.github/workflows/optional-inputs.yml
     with:
       mandatory: "Mandatory input"
+      optional: "Optional input"
   
