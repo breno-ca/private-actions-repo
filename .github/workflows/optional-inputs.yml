@@ -1,0 +1,23 @@
+name: Testing optional inputs
+on:
+  workflow_call:
+    inputs:
+      mandatory:
+        type: string
+        required: true
+      optional:
+        type: string
+        required: false
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    env:
+      MANDATORY: ${{ inputs.mandatory }}
+      OPTIONAL: ${{ inputs.optional }}
+    steps:
+      - name: Echo mandatory
+        run: echo $MANDATORY
+
+      - name: Echo optional if was provided
+        if: ${{ inputs.optional != '' }}
+        run: echo $OPTIONAL
