@@ -18,6 +18,14 @@ jobs:
       - name: Echo mandatory
         run: echo $MANDATORY
 
-      - name: Echo optional if was provided
+      - name: Install pngquant and mozjpeg
         if: ${{ inputs.optional != '' }}
-        run: echo $OPTIONAL
+        run: |
+          echo $OPTIONAL; \
+          sudo apt install pngquant -y; \
+          cd /opt/; \
+          sudo git clone https://github.com/mozilla/mozjpeg.git; \
+          cd mozjpeg/ ; \
+          sudo cmake -G"Unix Makefiles" .; \
+          sudo make; \
+          sudo make install; \
