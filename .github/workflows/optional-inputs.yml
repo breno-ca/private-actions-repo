@@ -6,7 +6,7 @@ on:
         type: string
         required: true
       optional:
-        type: string
+        type: boolean
         required: false
 jobs:
   test:
@@ -19,7 +19,7 @@ jobs:
         run: echo $MANDATORY
 
       - name: Install pngquant and mozjpeg
-        if: ${{ inputs.optional != '' }}
+        if: ${{ inputs.optional == true }}
         run: |
           echo $OPTIONAL; \
           sudo apt install pngquant -y; \
